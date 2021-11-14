@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "dgSpecHash": "qoozaxlRsnjchDy5iwZTt+W/pyhx3jd4XmEx+yJAig4O0EE+vz+ptXdwo8/+m2TV7d+dPFRIKgi9pi0rjDtiVA==",
+  "success": true,
+  "projectFilePath": "D:\\Proje\\OnCalisma\\Ui\\Ui.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\hsynd\\.nuget\\packages\\ormdb\\1.6.2\\ormdb.1.6.2.nupkg.sha512",
+    "C:\\Users\\hsynd\\.nuget\\packages\\microsoft.netcore.app.host.win-x64\\5.0.8\\microsoft.netcore.app.host.win-x64.5.0.8.nupkg.sha512"
+  ],
+  "logs": []
+}
