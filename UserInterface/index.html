@@ -74,9 +74,9 @@
         </div>
     </div>
 
-    <!-- Toast Message -->
+    <!-- Add Toast Message -->
     <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
-        <div id="addToast" class="toast bg-success" style="color: white;" role="alert" aria-live="assertive" aria-atomic="true" data-bs-delay="5000">
+        <div id="addToast" class="toast" style="color: white;" role="alert" aria-live="assertive" aria-atomic="true" data-bs-delay="5000">
           <div class="toast-header">
             <i class="fas fa-check-circle me-2"></i>
             <strong class="me-auto">Başarılı</strong>
@@ -90,10 +90,7 @@
 
     <script>
         var tabledata = [
-        {Id:1, UserName:"Oli Bob", Password:"12", Name:"Hüseyin", SurName:"Dalgıç"},
-        {Id:2, UserName:"Mary May", Password:"1", Name:"Mehmet", SurName:"Veli"},
-        {Id:1, UserName:"Oli Bob", Password:"12", Name:"Hüseyin", SurName:"Dalgıç"},
-        {Id:2, UserName:"Mary May", Password:"1", Name:"Mehmet", SurName:"Veli"}
+          
         ];
         var table = new Tabulator("#example-table", {
             height:300,
