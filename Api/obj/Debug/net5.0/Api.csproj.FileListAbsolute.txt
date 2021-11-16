@@ -32,3 +32,4 @@ D:\Proje\OnCalisma\Api\obj\Debug\net5.0\refint\Api.dll
 D:\Proje\OnCalisma\Api\obj\Debug\net5.0\Api.pdb
 D:\Proje\OnCalisma\Api\obj\Debug\net5.0\Api.genruntimeconfig.cache
 D:\Proje\OnCalisma\Api\obj\Debug\net5.0\ref\Api.dll
+D:\Proje\OnCalisma\Api\bin\Debug\net5.0\Newtonsoft.Json.dll

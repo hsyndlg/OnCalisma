@@ -4,6 +4,7 @@ using System.Data.SqlClient;
 using Api.Model;
 using System.Data;
 using Dapper;
+using Newtonsoft.Json;
 
 namespace Api.Controllers
 {
@@ -39,6 +40,7 @@ namespace Api.Controllers
                 var users = connection.Query<User>(sql, commandType: CommandType.Text).ToList();
                 if (users!=null)
                 {
+                    
                     return Ok(users);
                 }
                 else

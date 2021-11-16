@@ -28,6 +28,13 @@ namespace Api
         {
 
             services.AddControllers();
+            services.AddCors(options => 
+                    options.AddDefaultPolicy(
+                            policy => policy.AllowAnyHeader()
+                                            .AllowAnyMethod()
+                                            .AllowCredentials()
+                                            .SetIsOriginAllowed(x=> true)
+            ));
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Api", Version = "v1" });
@@ -47,7 +54,7 @@ namespace Api
             app.UseHttpsRedirection();
 
             app.UseRouting();
-
+            app.UseCors();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
