@@ -28,8 +28,8 @@ namespace Api
         {
 
             services.AddControllers();
-            services.AddCors(options => 
-                    options.AddDefaultPolicy(
+            
+            services.AddCors(options => options.AddDefaultPolicy(
                             policy => policy.AllowAnyHeader()
                                             .AllowAnyMethod()
                                             .AllowCredentials()
@@ -54,7 +54,9 @@ namespace Api
             app.UseHttpsRedirection();
 
             app.UseRouting();
+
             app.UseCors();
+            
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

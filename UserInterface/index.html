@@ -6,9 +6,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
       .tabulator-tableholder{
-        overflow: hidden !important;
+        overflow-x: hidden !important;
       }
     </style>
+
     <!-- Tabulator CDN -->
     <link href="https://unpkg.com/tabulator-tables@5.0.7/dist/css/tabulator.min.css" rel="stylesheet">
     <script type="text/javascript" src="https://unpkg.com/tabulator-tables@5.0.7/dist/js/tabulator.min.js"></script>
@@ -61,21 +62,21 @@
             </div>
             <div class="modal-body">
               <div class="mb-3">
-                <input type="text" class="form-control" id="inputUserName" placeholder="UserName" aria-describedby="emailHelp">
+                <input type="text" class="form-control" id="inputAddModalUserName" placeholder="UserName" aria-describedby="emailHelp">
               </div>
               <div class="mb-3">
-                <input type="password" class="form-control" id="inputPassword" placeholder="Password">
+                <input type="password" class="form-control" id="inputAddModalPassword" placeholder="Password">
               </div>
               <div class="mb-3">
-                <input type="text" class="form-control" id="inputName" placeholder="Name">
+                <input type="text" class="form-control" id="inputAddModalName" placeholder="Name">
               </div>
               <div class="mb-3">
-                <input type="text" class="form-control" id="inputSurName" placeholder="Surname">
+                <input type="text" class="form-control" id="inputAddModalSurName" placeholder="Surname">
               </div>
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-              <button id="btnAdd" type="button" class="btn btn-primary">Save</button>
+              <button id="addModalSaveBtn" type="button" class="btn btn-primary">Save</button>
             </div>
           </div>
         </div>
@@ -108,7 +109,7 @@
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-            <button id="btnAdd" type="button" class="btn btn-primary">Update</button>
+            <button id="updateModalSaveBtn" type="button" class="btn btn-primary">Update</button>
           </div>
         </div>
       </div>
@@ -119,7 +120,7 @@
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Update User</h5>
+            <h5 class="modal-title" id="exampleModalLabel">Delete User</h5>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
@@ -157,7 +158,7 @@
 
     <!-- Success Add Toast Message -->
     <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
-        <div id="addToast" class="toast bg-success" style="color: white;" role="alert" aria-live="assertive" aria-atomic="true" data-bs-delay="5000">
+        <div id="addSuccessToast" class="toast bg-success" style="color: white;" role="alert" aria-live="assertive" aria-atomic="true" data-bs-delay="5000">
           <div class="toast-header">
             <i class="fas fa-check-circle me-2"></i>
             <strong class="me-auto">Başarılı</strong>
@@ -171,7 +172,7 @@
 
     <!-- Error Add Toast Message -->
     <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
-      <div id="addToast" class="toast bg-danger" style="color: white;" role="alert" aria-live="assertive" aria-atomic="true" data-bs-delay="5000">
+      <div id="addErrorToast" class="toast bg-danger" style="color: white;" role="alert" aria-live="assertive" aria-atomic="true" data-bs-delay="5000">
         <div class="toast-header">
           <i class="fas fa-check-circle me-2"></i>
           <strong class="me-auto">Başarısız</strong>
@@ -185,56 +186,56 @@
 
     <!-- Success Update Toast Message -->
     <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
-      <div id="addToast" class="toast bg-success" style="color: white;" role="alert" aria-live="assertive" aria-atomic="true" data-bs-delay="5000">
+      <div id="updateSuccessToast" class="toast bg-success" style="color: white;" role="alert" aria-live="assertive" aria-atomic="true" data-bs-delay="5000">
         <div class="toast-header">
           <i class="fas fa-check-circle me-2"></i>
           <strong class="me-auto">Başarılı</strong>
           <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
         </div>
         <div class="toast-body">
-          Hello, world! This is a toast message.
+          Kayıt güncellendi.
         </div>
       </div>
     </div>
 
     <!-- Error Update Toast Message -->
     <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
-      <div id="addToast" class="toast bg-danger" style="color: white;" role="alert" aria-live="assertive" aria-atomic="true" data-bs-delay="5000">
+      <div id="updateErrorToast" class="toast bg-danger" style="color: white;" role="alert" aria-live="assertive" aria-atomic="true" data-bs-delay="5000">
         <div class="toast-header">
           <i class="fas fa-check-circle me-2"></i>
-          <strong class="me-auto">Başarılı</strong>
+          <strong class="me-auto">Güncellenemedi</strong>
           <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
         </div>
         <div class="toast-body">
-          Hello, world! This is a toast message.
+          Hata Oluştu.
         </div>
       </div>
     </div>
 
     <!-- Success Delete Toast Message -->
     <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
-      <div id="addToast" class="toast bg-success" style="color: white;" role="alert" aria-live="assertive" aria-atomic="true" data-bs-delay="5000">
+      <div id="deleteSuccessToast" class="toast bg-success" style="color: white;" role="alert" aria-live="assertive" aria-atomic="true" data-bs-delay="5000">
         <div class="toast-header">
           <i class="fas fa-check-circle me-2"></i>
           <strong class="me-auto">Başarılı</strong>
           <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
         </div>
         <div class="toast-body">
-          Hello, world! This is a toast message.
+          Kayıt silindi.
         </div>
       </div>
     </div>
 
     <!-- Error Delete Toast Message -->
     <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
-      <div id="addToast" class="toast bg-danger" style="color: white;" role="alert" aria-live="assertive" aria-atomic="true" data-bs-delay="5000">
+      <div id="deleteErrorToast" class="toast bg-danger" style="color: white;" role="alert" aria-live="assertive" aria-atomic="true" data-bs-delay="5000">
         <div class="toast-header">
           <i class="fas fa-check-circle me-2"></i>
-          <strong class="me-auto">Başarılı</strong>
+          <strong class="me-auto">Silinemedi</strong>
           <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
         </div>
         <div class="toast-body">
-          Hello, world! This is a toast message.
+          Kayıt silinirken hata oluştu.
         </div>
       </div>
     </div>
@@ -243,9 +244,11 @@
         
         var table = new Tabulator("#example-table", {
             height:300,
-            layout:"fitColumns",
+            layout: "fitColumns",
             placeholder: "No Data Set",
             selectable:true,
+            responsiveLayout:true,
+            reactiveData:true,
             columns:[
                 {title:"Id", field:"id"},
                 {title:"User Name", field:"userName"},
@@ -256,7 +259,7 @@
         });
 
         $('#getdatabtn').click(()=>{
-          table.setData("https://localhost:5001/api/users/getall");
+          table.setData("https://localhost:5001/api/users");
           var toast = new bootstrap.Toast($('#loadDataToast'));
           toast.show()
         });
@@ -283,6 +286,59 @@
             });
           })
         });
+        
+        // Create Modal User
+        $('#addModalSaveBtn').click(() => {
+          var formdata = {
+            userName: $('#inputAddModalUserName').val(),
+            password: $('#inputAddModalPassword').val(),
+            name: $('#inputAddModalName').val(),
+            surName: $('#inputAddModalSurName').val(),
+          };
+          $.ajax({
+            method: "POST",
+            url: "https://localhost:5001/api/users/create",
+            data: JSON.stringify(formdata),
+            contentType: "application/json",
+            success:(data) => {
+              var toast = new bootstrap.Toast($('#addSuccessToast'));
+              toast.show()
+              
+            },
+            error: (message) => {
+              var toast = new bootstrap.Toast($('#addErrorToast'));
+              toast.show()
+            }
+          })
+        })
+    
+        // Update Modal User
+        $('#updateModalSaveBtn').click(() => {
+          var formdata = {
+            id: $('#inputUpdateId').val(),
+            userName: $('#inputUpdateUserName').val(),
+            password: $('#inputUpdatePassword').val(),
+            name: $('#inputUpdateName').val(),
+            surName: $('#inputUpdateSurName').val(),
+          };
+          $.ajax({
+            method: "PUT",
+            url: "https://localhost:5001/api/users",
+            data: JSON.stringify(formdata),
+            contentType: "application/json",
+            success:(data) => {
+              var toast = new bootstrap.Toast($('#updateSuccessToast'));
+              
+              toast.show()
+            },
+            error: (message) => {
+              var toast = new bootstrap.Toast($('#updateErrorToast'));
+              
+              toast.show()
+            }
+          })
+        })
+        // Delete Modal User
     </script>
 </body>
 </html>

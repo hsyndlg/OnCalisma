@@ -9,11 +9,11 @@ using Newtonsoft.Json;
 namespace Api.Controllers
 {
     [ApiController]
-    [Route("api/[controller]/[action]")]
+    [Route("api/[controller]")]
     public class UsersController : ControllerBase
     {
         private readonly string Constr = "Server=HUSEYIN\\SQLEXPRESS;Database=OnCalisma;User Id=sa;Password=123456";
-        [HttpGet]
+        [HttpGet("{id}")]
         public IActionResult GetById(int id)
         {
             string sql = $"select * from Users where Id={id}";
@@ -51,17 +51,49 @@ namespace Api.Controllers
             
         }
         [HttpPost]
-        public IActionResult Login(string userName,string password)
+        public IActionResult Create(User user)
         {
-            string sql = $"select * from Users where UserName='@username' and Password='@password'";
+            string sql = $"insert into users (UserName,Password,Name,SurName) values (@Username,@Password,@Name,@Surname)";
             using (var connection = new SqlConnection(Constr))
             {
-                DynamicParameters parameters = new DynamicParameters();
-                parameters.Add("@username",userName,DbType.String);
-                parameters.Add("@password",password,DbType.String);
-                var result = connection.Query<User>(sql);
-                if (result != null) return Ok(result);
-                else return BadRequest("giriş başarısız");
+                var result = connection.Execute(sql,new {
+                    Username = user.Name,
+                    Password = user.Password,
+                    Name = user.Name,
+                    Surname = user.SurName
+                });
+                if (result > 0) return Ok();
+                else return BadRequest("İşlem başarısız");
+            }
+        }
+        [HttpPut]
+        public IActionResult Update(User user)
+        {
+            string sql = $"update users set UserName=@Username,Password=@Password,Name=@Name,SurName=@Surname where Id=@id";
+            using (var connection = new SqlConnection(Constr))
+            {
+                var result = connection.Execute(sql,new {
+                    id = user.Id,
+                    Username = user.Name,
+                    Password = user.Password,
+                    Name = user.Name,
+                    Surname = user.SurName
+                });
+                if (result > 0) return Ok();
+                else return BadRequest("İşlem başarısız");
+            }
+        }
+        [HttpDelete("{id}")]
+        public IActionResult Delete(int id)
+        {
+            string sql = "delete from users where Id=@ID";
+            using (var connection = new SqlConnection(Constr))
+            {
+                var result = connection.Execute(sql,new { 
+                    ID = id
+                });
+                if (result > 0) return Ok();
+                else return BadRequest("İşlem başarısız");
             }
         }
     }
