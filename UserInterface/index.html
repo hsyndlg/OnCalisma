@@ -76,7 +76,7 @@
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-              <button id="addModalSaveBtn" type="button" class="btn btn-primary">Save</button>
+              <button id="addModalSaveBtn" type="button" class="btn btn-primary" data-bs-dismiss="modal">Save</button>
             </div>
           </div>
         </div>
@@ -92,7 +92,7 @@
           </div>
           <div class="modal-body">
             <div class="mb-3">
-              <input type="text" class="form-control" id="inputUpdateId" placeholder="Id">
+              <input type="number" class="form-control" id="inputUpdateId" placeholder="Id">
             </div>
             <div class="mb-3">
               <input type="text" class="form-control" id="inputUpdateUserName" placeholder="UserName">
@@ -109,7 +109,7 @@
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-            <button id="updateModalSaveBtn" type="button" class="btn btn-primary">Update</button>
+            <button id="updateModalSaveBtn" type="button" data-bs-dismiss="modal" class="btn btn-primary">Update</button>
           </div>
         </div>
       </div>
@@ -125,6 +125,9 @@
           </div>
           <div class="modal-body">
             <div class="mb-3">
+              <input disabled type="number" class="form-control" id="inputDeleteId" placeholder="Id">
+            </div>
+            <div class="mb-3">
               <input disabled type="text" class="form-control" id="inputDeleteUserName" placeholder="UserName">
             </div>
             <div class="mb-3">
@@ -139,7 +142,7 @@
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-            <button id="btnAdd" type="button" class="btn btn-primary">Delete</button>
+            <button id="deleteModalSaveBtn" type="button" data-bs-dismiss="modal" class="btn btn-primary">Delete</button>
           </div>
         </div>
       </div>
@@ -242,6 +245,7 @@
 
     <script>
         
+        // Tabulator
         var table = new Tabulator("#example-table", {
             height:300,
             layout: "fitColumns",
@@ -267,7 +271,6 @@
         table.on("rowSelectionChanged", function(data, rows){
           $('#updatebtn').click(()=>{
             data.forEach(element => {
-              console.log(element);
               $('#inputUpdateId').val(element.id);
               $('#inputUpdateUserName').val(element.userName);
               $('#inputUpdatePassword').val(element.password);
@@ -277,7 +280,6 @@
           })
           $('#deletebtn').click(()=>{
             data.forEach(element => {
-              console.log(element);
               $('#inputDeleteId').val(element.id);
               $('#inputDeleteUserName').val(element.userName);
               $('#inputDeletePassword').val(element.password);
@@ -297,13 +299,13 @@
           };
           $.ajax({
             method: "POST",
-            url: "https://localhost:5001/api/users/create",
+            url: "https://localhost:5001/api/users",
             data: JSON.stringify(formdata),
             contentType: "application/json",
             success:(data) => {
               var toast = new bootstrap.Toast($('#addSuccessToast'));
-              toast.show()
-              
+              toast.show();
+              table.setData("https://localhost:5001/api/users");
             },
             error: (message) => {
               var toast = new bootstrap.Toast($('#addErrorToast'));
@@ -326,19 +328,43 @@
             url: "https://localhost:5001/api/users",
             data: JSON.stringify(formdata),
             contentType: "application/json",
-            success:(data) => {
+            success:(data,status,xhr) => {
               var toast = new bootstrap.Toast($('#updateSuccessToast'));
-              
-              toast.show()
+              table.setData("https://localhost:5001/api/users");
+              toast.show();
             },
             error: (message) => {
               var toast = new bootstrap.Toast($('#updateErrorToast'));
-              
-              toast.show()
+              toast.show();
             }
           })
         })
+        
         // Delete Modal User
+        $('#deleteModalSaveBtn').click(() => {          
+          var formdata = {
+            id: $('#inputDeleteId').val(),
+            userName: $('#inputDeleteUserName').val(),
+            password: $('#inputDeletePassword').val(),
+            name: $('#inputDeleteName').val(),
+            surName: $('#inputDeleteSurName').val(),
+          };
+          $.ajax({
+            method: "DELETE",
+            url: "https://localhost:5001/api/users",
+            data: JSON.stringify(formdata),
+            contentType: "application/json",
+            success:(data,status,xhr) => {
+              var toast = new bootstrap.Toast($('#deleteSuccessToast'));
+              table.setData("https://localhost:5001/api/users");
+              toast.show();
+            },
+            error: (message) => {
+              var toast = new bootstrap.Toast($('#deleteErrorToast'));
+              toast.show();
+            }
+          })
+        })
     </script>
 </body>
 </html>

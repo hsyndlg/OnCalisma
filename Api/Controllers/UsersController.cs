@@ -40,7 +40,6 @@ namespace Api.Controllers
                 var users = connection.Query<User>(sql, commandType: CommandType.Text).ToList();
                 if (users!=null)
                 {
-                    
                     return Ok(users);
                 }
                 else
@@ -83,14 +82,14 @@ namespace Api.Controllers
                 else return BadRequest("İşlem başarısız");
             }
         }
-        [HttpDelete("{id}")]
-        public IActionResult Delete(int id)
+        [HttpDelete]
+        public IActionResult Delete(User user)
         {
             string sql = "delete from users where Id=@ID";
             using (var connection = new SqlConnection(Constr))
             {
                 var result = connection.Execute(sql,new { 
-                    ID = id
+                    ID = user.Id
                 });
                 if (result > 0) return Ok();
                 else return BadRequest("İşlem başarısız");
