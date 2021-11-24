@@ -147,7 +147,7 @@ namespace Api.Controllers
                 {
                     HttpContext.Response.Cookies.Append("username",result.Username);
                     HttpContext.Response.Cookies.Append("password",result.Password);
-                    return Redirect("~/index.html");
+                    return Ok("~/index.html");
                 }
                 else
                 {
