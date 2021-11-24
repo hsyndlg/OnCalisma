@@ -28,13 +28,13 @@ namespace Api
         {
 
             services.AddControllers();
-            
-            services.AddCors(options => options.AddDefaultPolicy(
-                            policy => policy.AllowAnyHeader()
-                                            .AllowAnyMethod()
-                                            .AllowCredentials()
-                                            .SetIsOriginAllowed(x=> true)
-            ));
+    
+            services.AddCors(options => options.AddDefaultPolicy(policy => {
+                policy.AllowAnyHeader()
+                        .AllowAnyHeader()
+                            .AllowCredentials()
+                                .SetIsOriginAllowed(x => true);
+            }));
             
             services.AddSwaggerGen(c =>
             {
@@ -56,8 +56,10 @@ namespace Api
 
             app.UseRouting();
 
+            app.UseStaticFiles();
+
             app.UseCors();
-            
+
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

@@ -1,3 +1,4 @@
+<!-- İndex Page -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -20,6 +21,9 @@
     <!-- Bootstrap CDN -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+    
+    <!-- FontAweSome CDN -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous">
     
     <title>Index Page</title>
 </head>
@@ -153,7 +157,7 @@
       <div id="loadDataToast" class="toast bg-success" style="color: white;" role="alert" aria-live="assertive" aria-atomic="true" data-bs-delay="1500">
         <div class="toast-header">
           <i class="fas fa-check-circle me-2"></i>
-          <strong class="me-auto">Kayıtlar Getiriliyor..</strong>
+          <strong class="me-auto"> Kayıtlar Getiriliyor</strong>
           <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
         </div>
       </div>
@@ -177,7 +181,7 @@
     <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
       <div id="addErrorToast" class="toast bg-danger" style="color: white;" role="alert" aria-live="assertive" aria-atomic="true" data-bs-delay="5000">
         <div class="toast-header">
-          <i class="fas fa-check-circle me-2"></i>
+          <i class="fas fa-exclamation-circle"></i>
           <strong class="me-auto">Başarısız</strong>
           <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
         </div>
@@ -205,7 +209,7 @@
     <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
       <div id="updateErrorToast" class="toast bg-danger" style="color: white;" role="alert" aria-live="assertive" aria-atomic="true" data-bs-delay="5000">
         <div class="toast-header">
-          <i class="fas fa-check-circle me-2"></i>
+          <i class="fas fa-exclamation-circle"></i>
           <strong class="me-auto">Güncellenemedi</strong>
           <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
         </div>
@@ -233,8 +237,8 @@
     <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
       <div id="deleteErrorToast" class="toast bg-danger" style="color: white;" role="alert" aria-live="assertive" aria-atomic="true" data-bs-delay="5000">
         <div class="toast-header">
-          <i class="fas fa-check-circle me-2"></i>
-          <strong class="me-auto">Silinemedi</strong>
+          <i class="fas fa-exclamation-circle"></i>
+          <strong class="me-auto">  Silinemedi</strong>
           <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
         </div>
         <div class="toast-body">
@@ -244,6 +248,27 @@
     </div>
 
     <script>
+
+        // Cookie Kontrol
+        function getCookie(cookiename) {
+          var name = cookiename + "=";
+          var decodedCookie = decodeURIComponent(document.cookie);
+          var ca = decodedCookie.split(';');
+          for (var i = 0; i < ca.length; i++) {
+            var c = ca[i];
+            while (c.charAt(0) == ' ') {
+              c = c.substring(1);
+            }
+            if (c.indexOf(name) == 0) {
+              return c.substring(name.length, c.length);
+            }
+          }
+          return "";
+        }
+        
+        if (getCookie("username") == "") {
+          window.location.href = "http://127.0.0.1:5501/Api/wwwroot/accessdenied.html";
+        }
         
         // Tabulator
         var table = new Tabulator("#example-table", {
@@ -255,17 +280,11 @@
             reactiveData:true,
             columns:[
                 {title:"Id", field:"id"},
-                {title:"User Name", field:"userName"},
+                {title:"User Name", field:"username"},
                 {title:"Password", field:"password"},
                 {title:"Name", field:"name"},
-                {title:"Surname", field:"surName"},
+                {title:"Surname", field:"surname"},
             ]
-        });
-
-        $('#getdatabtn').click(()=>{
-          table.setData("https://localhost:5001/api/users");
-          var toast = new bootstrap.Toast($('#loadDataToast'));
-          toast.show()
         });
 
         table.on("rowSelectionChanged", function(data, rows){
@@ -365,6 +384,14 @@
             }
           })
         })
+        
+        // Load Data
+        $('#getdatabtn').click(()=>{
+          table.setData("https://localhost:5001/api/users");
+          var toast = new bootstrap.Toast($('#loadDataToast'));
+          toast.show()
+        });
+    
     </script>
 </body>
 </html>
