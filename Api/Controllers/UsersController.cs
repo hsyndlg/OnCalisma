@@ -14,11 +14,7 @@ using System.Threading.Tasks;
 
 namespace Api.Controllers
 {
-    // Requestten gelmeyen cookie ve swagger ile gelen cookieler
-    // AJAX'ta dönen response'ı html'de bastırma.
-    // Identity mekanizmasının dapper'la kullanımı.
     [ApiController]
-    
     [Route("api/[controller]")]
     [Authorize]
     public class UsersController : ControllerBase
