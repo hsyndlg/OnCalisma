@@ -11,8 +11,8 @@ Git CLI : `git clone https://github.com/hsyndlgc5334/OnCalisma.git`
 
 # User Interfaces
 
-![loginpage](C:\Users\hsynd\Desktop\loginpage.png)
+![loginpage](loginpage.png)
 
-![userspage](C:\Users\hsynd\Desktop\userspage.png)
+![userspage](userspage.png)
 
-![access](C:\Users\hsynd\Desktop\access.png)
+![access](access.png)
