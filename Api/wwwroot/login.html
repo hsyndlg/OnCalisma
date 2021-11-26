@@ -44,17 +44,16 @@
         
         $('#loginbtn').click(() => {
             var formdata = {
-                username: $('#inputusername'),
-                password: $('#inputpassword')
+                username: $('#inputusername').val(),
+                password: $('#inputpassword').val()
             };
             $.ajax({
                 method: "POST",
                 url: "https://localhost:5001/api/Users/Login",
-                dataType: "json",
                 data: JSON.stringify(formdata),
                 contentType: "application/json",
-                success:(data) => {
-                    console.log("response okey");
+                success:(data,status,xhr) => {
+                    window.location.href = "https://localhost:5001/index.html";
                 },
                 error: (message) => {
                     console.log(message);

@@ -119,8 +119,7 @@
                 revoked, directory listing denied, client access licenses exceeded, client certificate is untrusted or
                 invalid, client certificate has expired or is not yet valid, passport logon failed, source access
                 denied, infinite depth is denied, too many requests from the same client ip</b>...]</p>
-        <p>> <span>SOME PAGES ON THIS SERVER THAT YOU DO HAVE PERMISSION TO ACCESS</span>: [<a href="/">Home Page</a>,
-            <a href="/">About Us</a>, <a href="/">Contact Us</a>, <a href="/">Blog</a>...]
+        <p>> <span>SOME PAGES ON THIS SERVER THAT YOU DO HAVE PERMISSION TO ACCESS</span>: [ Login Sayfasına Yönlendiriliyor....]
         </p>
         <p>> <span>HAVE A NICE DAY SIR AXLEROD :-)</span></p>
     </div>
@@ -139,6 +138,9 @@
                 }
             }, 10);
         }, 0);
+        setTimeout(function() {
+            window.location.href = "login.html";
+        },20000)
 
     </script>
 </body>

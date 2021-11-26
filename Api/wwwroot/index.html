@@ -17,6 +17,7 @@
 
     <!-- JQuery CDN -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js" integrity="sha512-3j3VU6WC5rPQB4Ld1jnLV7Kd5xr+cq9avvhwqzbH/taCRNURoeEpoPBK9pDyeukwSxwRPJ8fDgvYXd6SkaZ2TA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
     <!-- Bootstrap CDN -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
@@ -250,24 +251,8 @@
     <script>
 
         // Cookie Kontrol
-        function getCookie(cookiename) {
-          var name = cookiename + "=";
-          var decodedCookie = decodeURIComponent(document.cookie);
-          var ca = decodedCookie.split(';');
-          for (var i = 0; i < ca.length; i++) {
-            var c = ca[i];
-            while (c.charAt(0) == ' ') {
-              c = c.substring(1);
-            }
-            if (c.indexOf(name) == 0) {
-              return c.substring(name.length, c.length);
-            }
-          }
-          return "";
-        }
-        
-        if (getCookie("username") == "") {
-          window.location.href = "http://127.0.0.1:5501/Api/wwwroot/accessdenied.html";
+        if ($.cookie("TokenUserCookie") == undefined) {
+          window.location.href = "https://localhost:5001/accessdenied.html";
         }
         
         // Tabulator
@@ -291,19 +276,19 @@
           $('#updatebtn').click(()=>{
             data.forEach(element => {
               $('#inputUpdateId').val(element.id);
-              $('#inputUpdateUserName').val(element.userName);
+              $('#inputUpdateUserName').val(element.username);
               $('#inputUpdatePassword').val(element.password);
               $('#inputUpdateName').val(element.name);
-              $('#inputUpdateSurName').val(element.surName);
+              $('#inputUpdateSurName').val(element.surname);
             });
           })
           $('#deletebtn').click(()=>{
             data.forEach(element => {
               $('#inputDeleteId').val(element.id);
-              $('#inputDeleteUserName').val(element.userName);
+              $('#inputDeleteUserName').val(element.username);
               $('#inputDeletePassword').val(element.password);
               $('#inputDeleteName').val(element.name);
-              $('#inputDeleteSurName').val(element.surName);
+              $('#inputDeleteSurName').val(element.surname);
             });
           })
         });
@@ -311,10 +296,10 @@
         // Create Modal User
         $('#addModalSaveBtn').click(() => {
           var formdata = {
-            userName: $('#inputAddModalUserName').val(),
+            username: $('#inputAddModalUserName').val(),
             password: $('#inputAddModalPassword').val(),
             name: $('#inputAddModalName').val(),
-            surName: $('#inputAddModalSurName').val(),
+            surname: $('#inputAddModalSurName').val(),
           };
           $.ajax({
             method: "POST",
@@ -337,10 +322,10 @@
         $('#updateModalSaveBtn').click(() => {
           var formdata = {
             id: $('#inputUpdateId').val(),
-            userName: $('#inputUpdateUserName').val(),
+            username: $('#inputUpdateUserName').val(),
             password: $('#inputUpdatePassword').val(),
             name: $('#inputUpdateName').val(),
-            surName: $('#inputUpdateSurName').val(),
+            surname: $('#inputUpdateSurName').val(),
           };
           $.ajax({
             method: "PUT",
@@ -363,10 +348,10 @@
         $('#deleteModalSaveBtn').click(() => {          
           var formdata = {
             id: $('#inputDeleteId').val(),
-            userName: $('#inputDeleteUserName').val(),
+            username: $('#inputDeleteUserName').val(),
             password: $('#inputDeletePassword').val(),
             name: $('#inputDeleteName').val(),
-            surName: $('#inputDeleteSurName').val(),
+            surname: $('#inputDeleteSurName').val(),
           };
           $.ajax({
             method: "DELETE",

@@ -28,8 +28,8 @@ D:\Proje\OnCalisma\Api\obj\Debug\net5.0\scopedcss\bundle\Api.styles.css
 D:\Proje\OnCalisma\Api\obj\Debug\net5.0\staticwebassets\Api.StaticWebAssets.Manifest.cache
 D:\Proje\OnCalisma\Api\obj\Debug\net5.0\Api.RazorTargetAssemblyInfo.cache
 D:\Proje\OnCalisma\Api\obj\Debug\net5.0\Api.dll
-D:\Proje\OnCalisma\Api\obj\Debug\net5.0\refint\Api.dll
 D:\Proje\OnCalisma\Api\obj\Debug\net5.0\Api.pdb
 D:\Proje\OnCalisma\Api\obj\Debug\net5.0\Api.genruntimeconfig.cache
 D:\Proje\OnCalisma\Api\obj\Debug\net5.0\ref\Api.dll
 D:\Proje\OnCalisma\Api\bin\Debug\net5.0\Newtonsoft.Json.dll
+D:\Proje\OnCalisma\Api\obj\Debug\net5.0\refint\Api.dll

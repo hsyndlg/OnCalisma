@@ -6,12 +6,21 @@ using System.Data;
 using Dapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Configuration;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Api.Controllers
 {
+    // Requestten gelmeyen cookie ve swagger ile gelen cookieler
+    // AJAX'ta dönen response'ı html'de bastırma.
+    // Identity mekanizmasının dapper'la kullanımı.
     [ApiController]
     
     [Route("api/[controller]")]
+    [Authorize]
     public class UsersController : ControllerBase
     {
         private readonly IConfiguration _configuration;
@@ -24,7 +33,7 @@ namespace Api.Controllers
         public IActionResult GetById(int id)
         {
             string sql = $"select * from Users where Id={id}";
-            if(HttpContext.Request.Cookies.Keys.Contains("username") != false)
+            if(HttpContext.Request.Cookies["TokenUserCookie"] != null)
             {
                 using (var connection = new SqlConnection(Constr))
                 {
@@ -41,14 +50,14 @@ namespace Api.Controllers
             }
             else
             {
-                return Redirect("~/accessdenied.html");
+                return RedirectToAction("AccessDenied");
             }
         }
         [HttpGet]
         public IActionResult GetAll()
         {
             string sql = "select * from Users";
-            if(HttpContext.Request.Cookies.Keys.Contains("username") != false)
+            if(HttpContext.Request.Cookies["TokenUserCookie"] != null)
             {
                 using (var connection = new SqlConnection(Constr))
                 {
@@ -65,14 +74,14 @@ namespace Api.Controllers
             }
             else
             {
-                return Redirect("~/accessdenied.html");
+                return RedirectToAction("AccessDenied");
             }
         }
         [HttpPost]
         public IActionResult Create(User user)
         {
             string sql = $"insert into users (UserName,Password,Name,SurName) values (@Username,@Password,@Name,@Surname)";
-            if(HttpContext.Request.Cookies.Keys.Contains("username") != false)
+            if(HttpContext.Request.Cookies["TokenUserCookie"] != null)
             {
                 using (var connection = new SqlConnection(Constr))
                 {
@@ -88,14 +97,14 @@ namespace Api.Controllers
             }
             else
             {
-                return Redirect("~/accessdenied.html");
+                return RedirectToAction("AccessDenied");
             }
         }
         [HttpPut]
         public IActionResult Update(User user)
         {
             string sql = $"update users set UserName=@Username,Password=@Password,Name=@Name,SurName=@Surname where Id=@id";
-            if(HttpContext.Request.Cookies.Keys.Contains("username") != false)
+            if(HttpContext.Request.Cookies["TokenUserCookie"] != null)
             {
                 using (var connection = new SqlConnection(Constr))
                 {
@@ -112,14 +121,14 @@ namespace Api.Controllers
             }
             else
             {
-                return Redirect("~/accessdenied.html");
+                return RedirectToAction("AccessDenied");
             }
         }
         [HttpDelete]
         public IActionResult Delete(User user)
         {
             string sql = "delete from users where Id=@ID";
-            if(HttpContext.Request.Cookies.Keys.Contains("username") != false)
+            if(HttpContext.Request.Cookies["TokenUserCookie"] != null)
             {
                 using (var connection = new SqlConnection(Constr))
                 {
@@ -132,11 +141,12 @@ namespace Api.Controllers
             }
             else
             {
-                return BadRequest("Kullanıcı girişi yapılmamış");
+                return RedirectToAction("AccessDenied");
             }
         }
+        [AllowAnonymous]
         [HttpPost("[action]")]
-        public IActionResult Login(User user)
+        public async Task<IActionResult> Login(User user)
         {
             string sql = $"select * from users where Username='{user.Username}' and Password='{user.Password}'";
             using (IDbConnection connection = new SqlConnection(Constr))
@@ -145,9 +155,22 @@ namespace Api.Controllers
 
                 if (result != null)
                 {
-                    HttpContext.Response.Cookies.Append("username",result.Username);
-                    HttpContext.Response.Cookies.Append("password",result.Password);
-                    return Ok("~/index.html");
+                    var claims = new List<Claim>
+                    {
+                        new Claim(ClaimTypes.Name,user.Username),
+                        new Claim(ClaimTypes.Surname,user.Password)
+                    };
+                    var claimIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+                    var authenticationProperty = new AuthenticationProperties
+                    {
+                        RedirectUri = @"/index.html"
+                    };
+
+
+                    await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme
+                                            , new ClaimsPrincipal(claimIdentity)
+                                            , authenticationProperty);
+                    return Ok(result);
                 }
                 else
                 {
@@ -158,16 +181,19 @@ namespace Api.Controllers
         [HttpPost("[action]")]
         public IActionResult Logout(User user)
         {
-            if (HttpContext.Request.Cookies.Keys.Contains("username") != false)
+            if (HttpContext.Request.Cookies["TokenUserCookie"] != null)
             {
-                HttpContext.Response.Cookies.Delete("username");
-                HttpContext.Response.Cookies.Delete("password");
-                return Redirect("~/login.html");
+                return Ok("Çıkış yapıldı.");
             }
             else
             {
                 return BadRequest("Giriş yapılmamış");
             }
+        }
+        [HttpGet("[action]")]
+        public IActionResult AccessDenied()
+        {
+            return Redirect("~/accessdenied.html");
         }
     }
 }
