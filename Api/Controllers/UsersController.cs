@@ -28,14 +28,13 @@ namespace Api.Controllers
         {
             _configuration = configuration;
         }
-        private readonly string Constr = "Server=HUSEYIN\\SQLEXPRESS;Database=OnCalisma;User Id=sa;Password=123456";
         [HttpGet("{id}")]
         public IActionResult GetById(int id)
         {
             string sql = $"select * from Users where Id={id}";
             if(HttpContext.Request.Cookies["TokenUserCookie"] != null)
             {
-                using (var connection = new SqlConnection(Constr))
+                using (var connection = new SqlConnection(_configuration.GetConnectionString("DefaultConnectionString")))
                 {
                     var user = connection.Query<User>(sql,commandType: CommandType.Text).FirstOrDefault();
                     if (user!=null)
@@ -59,7 +58,7 @@ namespace Api.Controllers
             string sql = "select * from Users";
             if(HttpContext.Request.Cookies["TokenUserCookie"] != null)
             {
-                using (var connection = new SqlConnection(Constr))
+                using (var connection = new SqlConnection(_configuration.GetConnectionString("DefaultConnectionString")))
                 {
                     var users = connection.Query<User>(sql, commandType: CommandType.Text).ToList();
                     if (users!=null)
@@ -83,7 +82,7 @@ namespace Api.Controllers
             string sql = $"insert into users (UserName,Password,Name,SurName) values (@Username,@Password,@Name,@Surname)";
             if(HttpContext.Request.Cookies["TokenUserCookie"] != null)
             {
-                using (var connection = new SqlConnection(Constr))
+                using (var connection = new SqlConnection(_configuration.GetConnectionString("DefaultConnectionString")))
                 {
                     var result = connection.Execute(sql,new {
                         Username = user.Name,
@@ -106,7 +105,7 @@ namespace Api.Controllers
             string sql = $"update users set UserName=@Username,Password=@Password,Name=@Name,SurName=@Surname where Id=@id";
             if(HttpContext.Request.Cookies["TokenUserCookie"] != null)
             {
-                using (var connection = new SqlConnection(Constr))
+                using (var connection = new SqlConnection(_configuration.GetConnectionString("DefaultConnectionString")))
                 {
                     var result = connection.Execute(sql,new {
                         id = user.Id,
@@ -130,7 +129,7 @@ namespace Api.Controllers
             string sql = "delete from users where Id=@ID";
             if(HttpContext.Request.Cookies["TokenUserCookie"] != null)
             {
-                using (var connection = new SqlConnection(Constr))
+                using (var connection = new SqlConnection(_configuration.GetConnectionString("DefaultConnectionString")))
                 {
                     var result = connection.Execute(sql,new { 
                         ID = user.Id
@@ -149,7 +148,7 @@ namespace Api.Controllers
         public async Task<IActionResult> Login(User user)
         {
             string sql = $"select * from users where Username='{user.Username}' and Password='{user.Password}'";
-            using (IDbConnection connection = new SqlConnection(Constr))
+            using (IDbConnection connection = new SqlConnection(_configuration.GetConnectionString("DefaultConnectionString")))
             {
                 var result = connection.QueryFirstOrDefault<User>(sql);
 
