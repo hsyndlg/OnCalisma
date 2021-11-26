@@ -8,3 +8,11 @@ Git CLI : `git clone https://github.com/hsyndlgc5334/OnCalisma.git`
 2. Api/appsettings.json' a ConnectionString yazılmalı.
 
 3. https://localhost:5001/login.html login sayfasına gidip giriş yapılmalı.
+
+# User Interfaces
+
+![loginpage](C:\Users\hsynd\Desktop\loginpage.png)
+
+![userspage](C:\Users\hsynd\Desktop\userspage.png)
+
+![access](C:\Users\hsynd\Desktop\access.png)
